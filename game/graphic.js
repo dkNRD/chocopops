@@ -28,7 +28,6 @@ function init()
 
     ennemy1 = new Ennemy("ennemy1", 0xff0000, new THREE.Vector2(200, 50), 3);
     scene.add(ennemy1.graphic);
-    ennemy1.position = ennemy1.graphic.position;
 
     playerPositions = [player1.position, ennemy1.position];
 
