@@ -22,17 +22,22 @@ function init()
 
     $container.append(renderer.domElement);
 
-    noGround = [];
-    ground = new Ground(0xffffff, WIDTH, HEIGHT, 10);
-    
-    player1 = new Player("player1", 0xffff00, new THREE.Vector2(50, 0), 0);
+    player1 = new Player("player1", 0xffff00, new THREE.Vector2(100, 0), 0);
     scene.add(player1.graphic);
+
+    ennemy1 = new Ennemy("ennemy1", 0xff0000, new THREE.Vector2(200, 50), 3);
+    scene.add(ennemy1.graphic);
+
+    playerPositions = [player1.position, ennemy1.position];
+
+    noGround = [];
+    ground = new Ground(0xffffff, WIDTH, HEIGHT, 10, playerPositions);
 
     light1 = new Light("sun", 0xffffff, "0,0,340");
     scene.add(light1);
 }
 
-function Ground(color, size_x, size_y, nb_tile)
+function Ground(color, size_x, size_y, nb_tile, playerPositions)
 {
     colors = Array(0xff0000, 0x00ff00, 0x0000ff, 0x000000);
 
@@ -48,8 +53,19 @@ function Ground(color, size_x, size_y, nb_tile)
         for (y = minY; y <= maxY; y = y+sizeOfTileY){
 
             color = colors[Math.floor(Math.random()*colors.length)];
-       
-            if (0x000000 != color)
+
+            for (var i = 0; i < playerPositions.length; i++) {
+                const playerPosition = playerPositions[i];
+                const posX = playerPosition.x;
+                const posY = playerPosition.y;
+                if (posX >= x - sizeOfTileX/2 && posX <= x + sizeOfTileX/2 &&
+                    posY >= y - sizeOfTileY/2 && posY <= y + sizeOfTileY/2) {
+                    while (0x000000 === color)
+                        color = colors[Math.floor(Math.random()*colors.length)];
+                }
+            }
+
+            if (0x000000 !== color)
             {
                 tmpGround = new THREE.Mesh(
                 new THREE.PlaneGeometry(sizeOfTileX-10, sizeOfTileY-10),
@@ -64,9 +80,9 @@ function Ground(color, size_x, size_y, nb_tile)
     }
 }
 
-function Lighht(name, color, position)
+function Light(name, color, position)
 {
-    pointLight = new THREE.PointLight(color, 50, 550);
+    pointLight = new THREE.PointLight(color, 50, 10000);
 
     pointLight.position.x = position.split(',')[0];
     pointLight.position.y = position.split(',')[1];

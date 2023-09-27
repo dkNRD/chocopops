@@ -21,6 +21,7 @@ var Player = function(name, color, position, direction) {
 };
 
 Player.prototype.dead = function () {
+    alert("Tu es mort !")
     this.graphic.position.z = this.graphic.position.z-0.1;
         //Nettoyage de la div container
         $("#container").html("");
@@ -51,13 +52,13 @@ Player.prototype.displayInfo = function () {
 }
 
 Player.prototype.turnRight = function (angle) {
-    this.direction += angle;
-    this.graphic.rotateOnAxis(new THREE.Vector3(0,0,1), +angle);
+    this.direction -= angle;
+    this.graphic.rotateOnAxis(new THREE.Vector3(0,0,1), -angle);
 };
 
 Player.prototype.turnLeft = function (angle) {
     this.direction += angle;
-    this.graphic.rotateOnAxis(new THREE.Vector3(0,0,1), angle);
+    this.graphic.rotateOnAxis(new THREE.Vector3(0,0,1), +angle);
 };
 
 Player.prototype.move = function () {
@@ -66,6 +67,26 @@ Player.prototype.move = function () {
         this.speed * Math.sin(this.direction) + this.position.y,
         this.graphic.position.z
     );
+
+    if (moveTo.x > WIDTH / 2) {
+        moveTo.x = WIDTH / 2;
+        this.speed = 0;
+    }
+
+    if (moveTo.x < -WIDTH / 2) {
+        moveTo.x = -WIDTH / 2;
+        this.speed = 0;
+    }
+
+    if (moveTo.y > HEIGHT / 2) {
+        moveTo.y = HEIGHT / 2;
+        this.speed = 0;
+    }
+
+    if (moveTo.y < -HEIGHT / 2) {
+        moveTo.y = -HEIGHT / 2;
+        this.speed = 0;
+    }
 
     this.position = moveTo;
 
