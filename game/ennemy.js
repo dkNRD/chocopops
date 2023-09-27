@@ -24,38 +24,6 @@ Ennemy.prototype.dead = function () {
     scene.remove(this.graphic);
 }
 
-Ennemy.prototype.accelerate = function (distance) {
-    var max = 2;
-
-    this.speed += distance / 4;
-    if (this.speed >= max) {
-        this.speed = max;
-    }
-};
-
-Ennemy.prototype.decelerate = function (distance) {
-    var min = -1;
-
-    this.speed -= distance / 16;
-    if (this.speed <= min) {
-        this.speed = min;
-    }
-};
-
-Ennemy.prototype.displayInfo = function () {
-    jQuery('#'+this.name+' >.life').text(this.life);
-}
-
-Ennemy.prototype.turnRight = function (angle) {
-    this.direction -= angle;
-    this.graphic.rotateOnAxis(new THREE.Vector3(0,0,1), -angle);
-};
-
-Ennemy.prototype.turnLeft = function (angle) {
-    this.direction += angle;
-    this.graphic.rotateOnAxis(new THREE.Vector3(0,0,1), +angle);
-};
-
 Ennemy.prototype.move = function () {
     this.position.x += this.direction
     if (this.position.x >= WIDTH / 2) {

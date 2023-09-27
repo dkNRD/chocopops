@@ -140,7 +140,7 @@ function player_falling()
             && (y > tileY) 
             && (y < mtileY))
         {
-           if (clock.getElapsedTime() - timeSinceLastCollision > 0.1) {
+           if (clock.getElapsedTime() - timeSinceLastCollision > 1) {
                 player1.life -= 1;
 
                 if (player1.life <= 0)
