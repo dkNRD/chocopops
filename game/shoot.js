@@ -66,7 +66,19 @@ function bullet_collision()
             scene.remove(player1.bullets[i]);
             player1.bullets.splice(i, 1);
             i--;
-            scene.remove(ennemy1.graphic);
+
+            ennemy1.life -= 1;
+            if (ennemy1.life === 2) {
+                ennemy1.material.color.setHex(0xFFFF00);
+            }
+            if (ennemy1.life === 1) {
+                ennemy1.material.color.setHex(0xFFFFF0);
+            }
+
+            if (ennemy1.life <= 0) {
+                ennemy1.dead();
+            }
+
             break;
         }
     }
@@ -128,7 +140,14 @@ function player_falling()
             && (y > tileY) 
             && (y < mtileY))
         {
-           player1.dead();
+           if (clock.getElapsedTime() - timeSinceLastCollision > 0.1) {
+                player1.life -= 1;
+
+                if (player1.life <= 0)
+                    player1.dead();
+
+                timeSinceLastCollision = clock.getElapsedTime();
+            }
         }
     }
 
