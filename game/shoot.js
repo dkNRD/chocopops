@@ -119,8 +119,8 @@ function player_falling()
     var nb_tile = 10;
     var sizeOfTileX = WIDTH / nb_tile;
     var sizeOfTileY = HEIGHT / nb_tile;
-    var x = player1.graphic.position.x | 0;
-    var y = player1.graphic.position.y | 0;
+    var x = player1.position.x | 0;
+    var y = player1.position.y | 0;
     var length = noGround.length;
     var element = null;
 
@@ -137,10 +137,10 @@ function player_falling()
 
         if ((x > tileX)
             && (x < mtileX)
-            && (y > tileY) 
+            && (y > tileY)
             && (y < mtileY))
         {
-           if (clock.getElapsedTime() - timeSinceLastCollision > 1) {
+            if (clock.getElapsedTime() - timeSinceLastCollision > 1) {
                 player1.life -= 1;
 
                 if (player1.life <= 0)
